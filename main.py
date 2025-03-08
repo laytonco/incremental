@@ -3,6 +3,8 @@ from constants import *
 import sys
 from mainblock import MainBlock
 from floatingtext import FloatingText
+from upgrades import UpgradeApp
+
 
 
 def main():
@@ -13,16 +15,21 @@ def main():
 
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("Idle square")
-    
 
-    x0 = (SCREEN_WIDTH - RECT_WIDTH) / 2
-    y0 = (SCREEN_HEIGHT - RECT_HEIGHT) / 2
+    block_width = 15  # Adjustable width
+    block_height = 15  # Adjustable height
+
+    x0 = (SCREEN_WIDTH - block_width) / 2
+    y0 = (SCREEN_HEIGHT - block_height) / 2
 
     # frames per second
     clock = pygame.time.Clock()
 
     # main block character
-    main_block = MainBlock(x0, y0)
+    main_block = MainBlock(x0, y0, block_width, block_height)
+
+    #call to upgrade app
+    upgrade_app = UpgradeApp()
 
     running = True
     while running:
@@ -30,9 +37,11 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             main_block.handle_event(event)
+            upgrade_app.handle_event(event)
 
         screen.fill("black")
         main_block.draw(screen)
+        upgrade_app.draw(screen)
         pygame.display.flip()
         clock.tick(60)
 

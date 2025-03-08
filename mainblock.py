@@ -5,13 +5,13 @@ from floatingtext import FloatingText
 
 class MainBlock:
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, width, height):
         self.x = x
         self.y = y
-        self.width = RECT_WIDTH
-        self.height = RECT_HEIGHT
-        self.original_width = RECT_WIDTH
-        self.original_height = RECT_HEIGHT
+        self.width = width
+        self.height = height
+        self.original_width = width
+        self.original_height = height
         self.floating_texts = []
         self.click_x = 0
         self.click_y = 0
