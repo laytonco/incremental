@@ -15,18 +15,23 @@ def main():
     x0 = (SCREEN_WIDTH - RECT_WIDTH) / 2
     y0 = (SCREEN_HEIGHT - RECT_HEIGHT) / 2
 
-    #main block character
-    main_block =  MainBlock(x0, y0)
+    # frames per second
+    clock = pygame.time.Clock()
+
+    # main block character
+    main_block = MainBlock(x0, y0)
 
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            main_block.handle_event(event)
 
         screen.fill("black")
         main_block.draw(screen)
         pygame.display.flip()
+        clock.tick(60)
 
     pygame.quit()
 
