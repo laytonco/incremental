@@ -1,10 +1,10 @@
 import pygame
 import sys
-
-import pygame
+from size import SizeDisplay
 
 class UpgradeApp:
-    def __init__(self):
+    def __init__(self, size_display):
+        self.size_display = size_display
         self.font = pygame.font.Font(None, 36)
         self.button_rect = pygame.Rect(10, 10, 120, 60)  # Adjusted size for better text fit
 
@@ -27,4 +27,5 @@ class UpgradeApp:
                 self.upgrade()
 
     def upgrade(self):
+        s
         print("Upgrade button clicked!")

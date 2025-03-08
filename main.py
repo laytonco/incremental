@@ -4,7 +4,7 @@ import sys
 from mainblock import MainBlock
 from floatingtext import FloatingText
 from upgrades import UpgradeApp
-
+from size import SizeDisplay
 
 
 def main():
@@ -25,11 +25,14 @@ def main():
     # frames per second
     clock = pygame.time.Clock()
 
-    # main block character
-    main_block = MainBlock(x0, y0, block_width, block_height)
+    # call to size display
+    size_display = SizeDisplay(SCREEN_WIDTH, SCREEN_HEIGHT)
 
-    #call to upgrade app
-    upgrade_app = UpgradeApp()
+    # main block character
+    main_block = MainBlock(x0, y0, block_width, block_height, size_display)
+
+    # call to upgrade app
+    upgrade_app = UpgradeApp(size_display)
 
     running = True
     while running:
@@ -42,6 +45,8 @@ def main():
         screen.fill("black")
         main_block.draw(screen)
         upgrade_app.draw(screen)
+        size_display.draw(screen)
+        
         pygame.display.flip()
         clock.tick(60)
 
