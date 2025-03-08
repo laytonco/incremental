@@ -2,6 +2,8 @@ import pygame
 from constants import *
 import sys
 from mainblock import MainBlock
+from floatingtext import FloatingText
+
 
 def main():
     pygame.init()
@@ -11,6 +13,7 @@ def main():
 
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("Idle square")
+    
 
     x0 = (SCREEN_WIDTH - RECT_WIDTH) / 2
     y0 = (SCREEN_HEIGHT - RECT_HEIGHT) / 2
