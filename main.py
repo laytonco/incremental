@@ -6,7 +6,6 @@ from floatingtext import FloatingText
 from upgrades import UpgradeApp
 from size import SizeDisplay
 
-
 def main():
     pygame.init()
 
@@ -40,7 +39,7 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             main_block.handle_event(event)
-            upgrade_app.handle_event(event)
+            upgrade_app.handle_event(event, main_block)
 
         screen.fill("black")
         main_block.draw(screen)

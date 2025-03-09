@@ -1,6 +1,6 @@
 import pygame
-from constants import *
 from floatingtext import FloatingText
+from constants import *
 from size import SizeDisplay
 from upgrades import UpgradeApp
 
@@ -23,7 +23,7 @@ class MainBlock:
         pygame.draw.rect(screen, ("gray"), (self.x, self.y, self.width, self.height))
         self.floating_texts = [text for text in self.floating_texts if text.alpha > 0]
         for text in self.floating_texts:
-            text.draw(screen)
+            text.draw(screen, self.click_amount)
 
     def click(self, x, y):
         if x > self.x and x < self.x + self.width and y > self.y and y < self.y + self.height:
@@ -43,8 +43,8 @@ class MainBlock:
             self.y -= (self.original_height - self.height) / 2
             self.width = self.original_width
             self.height = self.original_height
-            self.floating_texts.append(FloatingText(self.click_x, self.click_y))
-            self.size_display.update_size(self.size_display.current_size + click_amount)
+            self.floating_texts.append(FloatingText(self.click_x, self.click_y, click_amount))
+            self.size_display.update_size(self, self.size_display.current_size + click_amount)
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:

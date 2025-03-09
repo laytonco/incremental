@@ -1,6 +1,6 @@
 import pygame
 import sys
-from size import SizeDisplay
+from constants import *
 
 class UpgradeApp:
     def __init__(self, size_display):
@@ -21,11 +21,13 @@ class UpgradeApp:
         text_rect = text_surface.get_rect(center=self.button_rect.center)
         screen.blit(text_surface, text_rect)
 
-    def handle_event(self, event):
+    def handle_event(self, event, main_block):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.button_rect.collidepoint(event.pos):
-                self.upgrade()
+                self.upgrade_click_amount(main_block)
 
-    def upgrade(self):
-        s
-        print("Upgrade button clicked!")
+    def upgrade_click_amount(self, main_block):
+        main_block.click_amount = round(main_block.click_amount * 1.3, 2)
+        print(f"Upgrade! Click amount is now {main_block.click_amount}")
+
+
