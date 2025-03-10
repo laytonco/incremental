@@ -1,55 +1,70 @@
 import pygame
-from constants import *
-import sys
-from mainblock import MainBlock
-from floatingtext import FloatingText
-from upgrades import UpgradeApp
-from size import SizeDisplay
+# Initialize Pygame
+pygame.init()
 
-def main():
-    pygame.init()
+# Set up the display
+screen = pygame.display.set_mode((1280, 700))
+pygame.display.set_caption("Square Breaker")
 
-    SCREEN_WIDTH = 1280
-    SCREEN_HEIGHT = 780
+# Define colors
+BLACK = (0, 0, 0)
+GRAY = (128, 128, 128)
 
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    pygame.display.set_caption("Idle square")
+# Define the square object
+class PlayerSquare:
+    def __init__(self, color, size, score):
+        self.color = color
+        self.size = size
+        self.rect = pygame.Rect((1280 - size) // 2, (700 - size) // 2, size, size)
+        self.score = score
 
-    block_width = 15  # Adjustable width
-    block_height = 15  # Adjustable height
+    def draw(self, surface):
+        pygame.draw.rect(surface, self.color, self.rect)
 
-    x0 = (SCREEN_WIDTH - block_width) / 2
-    y0 = (SCREEN_HEIGHT - block_height) / 2
+    def click(self, x, y):
+        if self.rect.collidepoint(x, y):
+            self.score.increase(1)
+            print("Square clicked!")
 
-    # frames per second
-    clock = pygame.time.Clock()
+class Score:
+    def __init__(self, font, size):
+        self.score = 0
+        self.font = pygame.font.Font(font, size)
 
-    # call to size display
-    size_display = SizeDisplay(SCREEN_WIDTH, SCREEN_HEIGHT)
+    def increase(self, amount=1):
+        self.score += amount
 
-    # main block character
-    main_block = MainBlock(x0, y0, block_width, block_height, size_display)
+    def draw(self, surface):
+        score_text = self.font.render(f"Fragments: {self.score}", True, GRAY)
+        surface.blit(score_text, (screen.get_width() - score_text.get_width() - 10, 10))
 
-    # call to upgrade app
-    upgrade_app = UpgradeApp(size_display)
+# Create a score instance
+score = Score(None, 36)
 
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            main_block.handle_event(event)
-            upgrade_app.handle_event(event, main_block)
+# Create a square instance
+square = PlayerSquare(GRAY, 100, score)
 
-        screen.fill("black")
-        main_block.draw(screen)
-        upgrade_app.draw(screen)
-        size_display.draw(screen)
-        
-        pygame.display.flip()
-        clock.tick(60)
+# Main loop
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            x, y = pygame.mouse.get_pos()
+            square.click(x, y)
 
-    pygame.quit()
+    # Fill the background
+    screen.fill(BLACK)
 
-if __name__ == "__main__":
-    main()
+    # Draw the square
+    square.draw(screen)
+
+    # Draw the score
+    score.draw(screen)
+
+    # Update the display
+    pygame.display.flip()
+
+# Quit Pygame
+pygame.quit()
