@@ -5,10 +5,10 @@ from helperfunctions import *
 from projectile import Projectile
 
 class Autoclicker:
-    def __init__(self, font, size, player_square, y_offset, messanger):
+    def __init__(self, font, size, player_square, y_offset, messanger, projectiles):
         self.messanger = messanger
         self.num_circles = 0
-        self.projectiles = []
+        self.projectiles = projectiles  # Use the projectiles list from main.py
         self.font = pygame.font.Font(font, size)
         self.radius = 250 # distance from the center of the square
         self.angle = 0
@@ -131,3 +131,6 @@ class Autoclicker:
                 y = center_y + self.radius * math.sin(angle_rad)
                 # Draw the circle
                 pygame.draw.circle(surface, (255, 255, 255), (int(x), int(y)), 20)
+
+
+

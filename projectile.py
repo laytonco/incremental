@@ -6,13 +6,13 @@ from helperfunctions import *
 
 class Projectile:
     def __init__(self, x, y, target_x, target_y, speed=5):
-        self.rect = pygame.Rect(x, y, 10, 5)  # Small square projectile
+        self.rect = pygame.Rect(x, y, 10, 10)  # Small square projectile
         self.speed = speed  # Movement speed
 
         # Calculate direction vector
         direction_x = target_x - x
         direction_y = target_y - y
-        length = math.sqrt(direction_x ** 2 + direction_y ** 2)  # Distance to target
+        length = (direction_x ** 2 + direction_y ** 2) ** 0.5  # Distance to target
 
         # Normalize to get unit vector
         if length != 0:

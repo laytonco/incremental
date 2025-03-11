@@ -10,16 +10,12 @@ from autoclicker import Autoclicker
 from projectile import Projectile
 from message_manager import Messanger
 
-
-
 # Initialize Pygame
 pygame.init()
 
 # Set up the display
 screen = pygame.display.set_mode((1280, 700))
 pygame.display.set_caption("Square Breaker")
-
-
 
 #create text message
 messanger = Messanger(None, 36)
@@ -32,10 +28,13 @@ square = PlayerSquare(GRAY, 100, score)
 # Define the initial click amount
 click_amount = 1
 
+# Define the projectiles list
+projectiles = []
+
 # Create upgrade instances
 upgrade_click_amount = UpgradeClickAmount(None, 36, square, messanger, click_amount)
 upgrade_multiplier = UpgradeMultiplier(None, 36, square, upgrade_click_amount.button_rect.bottom + 10, messanger, click_amount)
-autoclicker = Autoclicker(None, 36, square, upgrade_multiplier.button_rect.bottom + 10, messanger)
+autoclicker = Autoclicker(None, 36, square, upgrade_multiplier.button_rect.bottom + 10, messanger, projectiles)
 
 # tick rate:
 tick_rate = 60
@@ -68,25 +67,22 @@ while running:
     upgrade_multiplier.draw(screen)
     autoclicker.draw(screen)
 
-    #draw messages
+    # Draw messages
     messanger.draw(screen)
-
-    # Draw the projectiles
-    for projectile in autoclicker.projectiles[:]:
-        projectile.move()
-        projectile.draw(screen)
-        if pygame.Rect.colliderect(projectile.rect, square.rect):
-            autoclicker.projectiles.remove(projectile)
-            square.click()
-
-        if projectile.rect.bottom < 0:
-            autoclicker.projectiles.remove(projectile)
 
     # Check if autoclicker is enabled and click the square
     autoclicker.autoclick()
     if autoclicker.enabled:
         autoclicker.autoclicker_sprite(screen)
         autoclicker.update(pygame.time.get_ticks(), screen)
+
+    # Check for projectile collisions
+    for projectile in projectiles[:]:
+        projectile.move()
+        projectile.draw(screen)
+        if pygame.Rect.colliderect(projectile.rect, square.rect):
+            square.hit_by_projectile(projectile.rect.x, projectile.rect.y)
+            projectiles.remove(projectile)
 
     # Update the display
     pygame.display.flip()
