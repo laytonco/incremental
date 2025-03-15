@@ -65,5 +65,5 @@ class UpgradeClickAmount:
             self.player_square.score.increase(-self.cost)
         self.player_square.click_amount += 1  # Increase the click amount by 1
         self.click_amount = self.player_square.click_amount #update the click amount
-        self.cost += 50  # Increase the cost by 50
+        self.cost = int(self.cost * 1.25) # Increase the cost by 50
         print(f"Upgrade! Click amount is now {self.player_square.click_amount}, new cost is {self.cost}")

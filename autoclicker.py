@@ -12,7 +12,7 @@ class Autoclicker:
         self.font = pygame.font.Font(font, size)
         self.radius = 250 # distance from the center of the square
         self.angle = 0
-        self.cost = 1
+        self.cost = 100
         self.text = "Autoclicker"
         self.player_square = player_square  # Reference to the player square
         self.enabled = False  # Autoclicker initially disabled
@@ -56,7 +56,7 @@ class Autoclicker:
         else:
             self.player_square.score.increase(-self.cost)
             self.num_circles += 1
-            self.cost *= int(self.cost * 2.5)  # Increase the cost exponentially
+            self.cost = int(self.cost * 1.25)  # Increase the cost exponentially
             
         self.enabled = True  # Enable the autoclicker
         self.last_click_time = pygame.time.get_ticks()  # Initialize the last click time

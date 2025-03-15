@@ -51,5 +51,5 @@ class UpgradeMultiplier:
             self.player_square.score.increase(-self.cost)
         new_click_amount = self.player_square.click_amount * 1.5
         self.player_square.click_amount = new_click_amount  # Update the click amount with the new value
-        self.cost += 50  # Increase the cost by 50
+        self.cost = int(self.cost * 1.25)# Increase the cost by 50
         print(f"Upgrade! Multiplier is now {new_click_amount}, new cost is {self.cost}")

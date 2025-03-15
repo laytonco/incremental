@@ -40,6 +40,9 @@ autoclicker = Autoclicker(None, 36, square, upgrade_multiplier.button_rect.botto
 tick_rate = 60
 clock = pygame.time.Clock()
 
+#event state
+gamestate = "running"
+
 # Main loop
 running = True
 while running:
@@ -52,37 +55,56 @@ while running:
             upgrade_click_amount.click(x, y)
             upgrade_multiplier.click(x, y)
             autoclicker.click(x, y)
+        if score.score >= 1e12:
+            gamestate = "gameover"
 
-    # Fill the background
-    screen.fill(BLACK)
 
-    # Draw the square
-    square.draw(screen)
+    def gameover():
+        if gamestate == "gameover":
+            screen.fill("white")
+            font = pygame.font.Font(None, 100)
+            text = font.render("Square Broken, congratz!", True, ("black"))
+            text_rect = text.get_rect(center=(1280 // 2, 720 // 2))
+            screen.blit(text, text_rect)    
 
-    # Draw the score
-    score.draw(screen)
+    def playing():
+        if gamestate == "running":
+            # Fill the background
+            screen.fill(BLACK)
 
-    # Draw the upgrade buttons and costs
-    upgrade_click_amount.draw(screen)
-    upgrade_multiplier.draw(screen)
-    autoclicker.draw(screen)
+            # Draw the square
+            square.draw(screen)
 
-    # Draw messages
-    messanger.draw(screen)
+            # Draw the score
+            score.draw(screen)
 
-    # Check if autoclicker is enabled and click the square
-    autoclicker.autoclick()
-    if autoclicker.enabled:
-        autoclicker.autoclicker_sprite(screen)
-        autoclicker.update(pygame.time.get_ticks(), screen)
+            # Draw the upgrade buttons and costs
+            upgrade_click_amount.draw(screen)
+            upgrade_multiplier.draw(screen)
+            autoclicker.draw(screen)
 
-    # Check for projectile collisions
-    for projectile in projectiles[:]:
-        projectile.move()
-        projectile.draw(screen)
-        if pygame.Rect.colliderect(projectile.rect, square.rect):
-            square.hit_by_projectile(projectile.rect.x, projectile.rect.y)
-            projectiles.remove(projectile)
+            # Draw messages
+            messanger.draw(screen)
+
+            # Check if autoclicker is enabled and click the square
+            autoclicker.autoclick()
+            if autoclicker.enabled:
+                autoclicker.autoclicker_sprite(screen)
+                autoclicker.update(pygame.time.get_ticks(), screen)
+
+            # Check for projectile collisions
+            for projectile in projectiles[:]:
+                projectile.move()
+                projectile.draw(screen)
+                if pygame.Rect.colliderect(projectile.rect, square.rect):
+                    square.hit_by_projectile(projectile.rect.x, projectile.rect.y)
+                    projectiles.remove(projectile)
+
+    # Call the playing function
+    if gamestate == "running":
+        playing()
+    elif gamestate == "gameover":
+        gameover()
 
     # Update the display
     pygame.display.flip()
